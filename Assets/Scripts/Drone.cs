@@ -245,6 +245,17 @@ public class Drone : Agent
         return chargingStation;
     }
 
+    public IEnumerator WaitForSeconds(float seconds)
+    {
+        float time = 0;
+
+        while (time < seconds)
+        {
+            time += Time.deltaTime;
+            yield return null;
+        }
+    }
+
     // print whatever you want on the console from a UnityProlog plan
     public void PrintLog(object str)
     {
