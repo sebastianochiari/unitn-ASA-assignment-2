@@ -5,7 +5,7 @@ add call_drone(SpawnedBox) && true =>
     add_desire(send(SpawnedBox))
 ].
 
-add send(SpawnedBox) && (\+ belief dealing) =>
+add send(SpawnedBox) && true =>
 [
     % get a random Drone
     act (getDrone, Drone),
@@ -15,11 +15,8 @@ add send(SpawnedBox) && (\+ belief dealing) =>
         add_agent_belief(Drone, busy)
     ),
     
-    add_belief(dealing),
     % add to the Drone the desire to pickup the box
-    add_agent_desire(Drone, getTo(SpawnedBox)),
-
-    del_belief(dealing),
+    add_agent_desire(Drone, shipBox(SpawnedBox)),
     
     stop
 ].

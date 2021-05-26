@@ -20,6 +20,7 @@ add sort(Box) && (belief ready) =>
     % call RailBot
     act (getRailBot(DestinationArea), RailBot),
     add_agent_desire(RailBot, deliverBox(Box)),
+    add_agent_belief(RailBot, busy),
 
     stop
 ].

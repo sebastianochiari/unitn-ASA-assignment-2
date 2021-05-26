@@ -1,9 +1,7 @@
 :- consult("UnityLogic/KBs/UnityLogicAgentAPI.prolog").
 
-belief ready.
-
 % get box from platform to sorting zone
-add collectBox(Box) && (belief ready) =>
+add collectBox(Box) && (belief busy) =>
 [
     cr goto(Box),
     act (pickUp(Box)),
@@ -14,14 +12,13 @@ add collectBox(Box) && (belief ready) =>
     act (getSortingBot, SortingBot),
     add_agent_desire(SortingBot, sort(Box)),
 
-    del_belief(ready),
-    add_desire(refuel),
+    del_belief(busy),
 
     stop
 ].
 
 % get box from sorting zone to platform
-add deliverBox(Box) && (belief ready) =>
+add deliverBox(Box) && (belief busy) =>
 [
     cr goto(Box),
     act (pickUp(Box)),
@@ -33,6 +30,16 @@ add deliverBox(Box) && (belief ready) =>
     cr goto(Area),
     act (dropDown(Area)),
 
+    add_desire(callDrone(Box)),
+    add_belief(requestingDrone),
+
+    del_belief(busy),
+
+    stop
+].
+
+add callDrone(Box) && (belief requestingDrone) =>
+[
     % call drone for delivery
     act (getDrone, Drone),
     % check if the chosen drone is not busy
@@ -41,18 +48,7 @@ add deliverBox(Box) && (belief ready) =>
         add_agent_belief(Drone, busy)
     ),
     add_agent_desire(Drone, deliverBox(Box)),
-
-    del_belief(ready),
-    add_desire(refuel),
-
-    stop
-].
-
-add refuel && true =>
-[
-
-    del_desire(refuel),
-    add_belief(ready),
+    del_belief(requestingDrone),
 
     stop
 ].
