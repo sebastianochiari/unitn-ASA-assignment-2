@@ -5,6 +5,65 @@ add collectBox(Box) && (belief busy) =>
 [
     cr goto(Box),
     act (pickUp(Box)),
+
+    add_desire(checkShipmentInfo(Box)),
+
+    add_desire(nextStep(Box)),
+
+    del_belief(busy),
+    add_desire(idle),
+
+    stop
+].
+
+add checkShipmentInfo(Box) && true =>
+[
+    check_artifact_belief(Box, start(Start)),
+    check_artifact_belief(Box, destination(Destination)),
+
+    check_agent_belief(Start, area(StartArea)),
+    check_agent_belief(Destination, area(DestinationArea)),
+
+    StartArea = DestinationArea,
+
+    add_belief(sameShippingArea),
+
+    stop
+].
+
+add checkShipmentInfo(Box) && true =>
+[
+    check_artifact_belief(Box, start(Start)),
+    check_artifact_belief(Box, destination(Destination)),
+
+    check_agent_belief(Start, area(StartArea)),
+    check_agent_belief(Destination, area(DestinationArea)),
+
+    StartArea \= DestinationArea,
+
+    add_belief(differentShippingArea),
+
+    stop
+].
+
+add nextStep(Box) && (belief sameShippingArea) =>
+[
+    check_artifact_belief(Box, start(Destination)),
+    check_agent_belief(Destination, area(DestinationArea)),
+    act (getArea(DestinationArea), Area),
+
+    act (dropDown(Area)),
+
+    add_desire(callDrone(Box)),
+    add_belief(requestingDrone),
+
+    del_belief(sameShippingArea),
+
+    stop
+].
+
+add nextStep(Box) && (belief differentShippingArea) =>
+[
     act (getExchangeArea, ExchangeArea),
     cr goto(ExchangeArea),
     act (dropDown(ExchangeArea)),
@@ -13,8 +72,7 @@ add collectBox(Box) && (belief busy) =>
     add_agent_belief(SortingBot, busy),
     add_agent_desire(SortingBot, sort(Box)),
 
-    del_belief(busy),
-    add_desire(idle),
+    del_belief(differentShippingArea),
 
     stop
 ].

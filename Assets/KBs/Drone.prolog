@@ -1,5 +1,6 @@
 :- consult("UnityLogic/KBs/UnityLogicAgentAPI.prolog").
 
+% from railbot to destination area
 add deliverBox(Box) && (belief busy) =>
 [    
     cr takeOff(),
@@ -23,6 +24,7 @@ add deliverBox(Box) && (belief busy) =>
     stop
 ].
 
+% from the PickUpArea to the intermediate destination area
 add shipBox(Box) && (belief busy) =>
 [
     cr takeOff(),
@@ -44,10 +46,6 @@ add shipBox(Box) && (belief busy) =>
     act dropDown(),
 
     add_desire(callRailBot(Box)),
-    
-    % need to refuel
-    del_belief(busy),
-    add_desire(refuel),
 
     stop
 ].
@@ -60,6 +58,10 @@ add callRailBot(Box) && true =>
     act (getRailBot(StartArea), RailBot),
     add_agent_belief(RailBot, busy),
     add_agent_desire(RailBot, collectBox(Box)),
+
+    % need to refuel
+    del_belief(busy),
+    add_desire(refuel),
 
     stop
 ].
