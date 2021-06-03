@@ -44,7 +44,6 @@ add shipBox(Box) && (belief busy) =>
     act dropDown(),
 
     add_desire(callRailBot(Box)),
-    % add_belief(requestingRailBot),
     
     % need to refuel
     del_belief(busy),
@@ -72,9 +71,9 @@ add refuel && true =>
     act (getChargingStation(), ChargingStation),
     cr goto(ChargingStation),
     cr land(),
-    act printLog("Refueling"),
-    % cr waitForSeconds(5),
-    act printLog("Ready"),
+    % act printLog("Refueling"),
+    cr waitForSeconds(3),
+    % act printLog("Ready"),
 
     stop   
 ].

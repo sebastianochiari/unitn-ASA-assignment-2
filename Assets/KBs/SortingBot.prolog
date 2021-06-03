@@ -1,8 +1,6 @@
 :- consult("UnityLogic/KBs/UnityLogicAgentAPI.prolog").
 
-belief ready.
-
-add sort(Box) && (belief ready) =>
+add sort(Box) && (belief busy) =>
 [
     % move bot to box and pickup the box
     cr goto(Box),
@@ -21,6 +19,24 @@ add sort(Box) && (belief ready) =>
     act (getRailBot(DestinationArea), RailBot),
     add_agent_desire(RailBot, deliverBox(Box)),
     add_agent_belief(RailBot, busy),
+
+    del_belief(busy),
+    add_desire(recharge),
+
+    stop
+].
+
+add recharge && (\+ busy) =>
+[
+    act (getChargingStation(), ChargingStation),
+    cr goto(ChargingStation),
+
+    stop
+].
+
+add recharge && (busy) =>
+[
+    add_desire(recharge),
 
     stop
 ].

@@ -10,9 +10,11 @@ add collectBox(Box) && (belief busy) =>
     act (dropDown(ExchangeArea)),
 
     act (getSortingBot, SortingBot),
+    add_agent_belief(SortingBot, busy),
     add_agent_desire(SortingBot, sort(Box)),
 
     del_belief(busy),
+    add_desire(idle),
 
     stop
 ].
@@ -34,6 +36,7 @@ add deliverBox(Box) && (belief busy) =>
     add_belief(requestingDrone),
 
     del_belief(busy),
+    add_desire(idle),
 
     stop
 ].
@@ -49,6 +52,21 @@ add callDrone(Box) && (belief requestingDrone) =>
     ),
     add_agent_desire(Drone, deliverBox(Box)),
     del_belief(requestingDrone),
+
+    stop
+].
+
+add idle && (\+ busy) =>
+[
+    act (getChargingStation(), ChargingStation),
+    cr goto(ChargingStation),
+
+    stop
+].
+
+add idle && (busy) =>
+[
+    add_desire(idle),
 
     stop
 ].

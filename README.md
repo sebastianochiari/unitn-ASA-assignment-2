@@ -3,17 +3,18 @@ The project consists in building a UnityProlog national vaccine distribution sim
 Second assignment for the *Autonomous Software Agents* course @ UNITN.
 
 ### ⚙️ Requirements
-- `Unity 2017.4.*` (for this project, it was used `Unity 2017.4.40f1 LTS`)
+- `Unity 2017.4.*` (for this project `Unity 2017.4.40f1 LTS` was used)
 - `Unity Prolog` (add-on already provided with the source code)
 
 ### 🔧 How to use
 - Clone the repository `git clone https://github.com/sebastianochiari/ASA-assignment-2`
-- Set the correct Unity version and open the folder with Unity Hub
+- Set the correct Unity version and open the project folder with Unity Hub
+- Customize box spawning inside `Assets/KBs/GameManager.prolog`
 - Launch the simulation
 
 ### 📜 Report
 
-The report `asa-assignment2-report.pdf` includes all the details about project specifications, domain and problem implementation and design choices, problems and error analysis. 
+The report `asa-assignment2-report.pdf` includes all the details about project specifications, implementation and design choices, problems and error analysis. 
 
 
 ### 🤖 APIs
