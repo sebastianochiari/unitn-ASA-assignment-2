@@ -16,6 +16,7 @@ add collectBox(Box) && (belief busy) =>
     stop
 ].
 
+% SAME SHIPMENT AREA case
 add checkShipmentInfo(Box) && true =>
 [
     check_artifact_belief(Box, start(Start)),
@@ -31,6 +32,7 @@ add checkShipmentInfo(Box) && true =>
     stop
 ].
 
+% DIFFERENT SHIPMENT AREA case
 add checkShipmentInfo(Box) && true =>
 [
     check_artifact_belief(Box, start(Start)),

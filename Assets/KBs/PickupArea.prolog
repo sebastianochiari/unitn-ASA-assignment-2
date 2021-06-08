@@ -3,6 +3,9 @@
 add call_drone(SpawnedBox) && true =>
 [
     add_desire(send(SpawnedBox))
+
+    % in case not working remove this line
+    stop
 ].
 
 add send(SpawnedBox) && true =>
